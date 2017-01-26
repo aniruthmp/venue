@@ -1,0 +1,55 @@
+server:
+  port: ${PORT:7000}
+
+management.port: 9006
+
+spring:
+  cloud:
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - veth.*
+    stream:
+      bindings:
+        input:
+          destination: venuetopic
+          content-type: application/json
+          group: venuegroup
+          resetOffsets: true
+  profiles:
+    active: default
+
+---
+
+spring:
+  profiles: docker
+  couchbase:
+    bucket:
+      name: default
+      password:
+    env:
+      ssl:
+        enabled: false
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: kafka:9092
+
+---
+
+spring:
+  profiles: default
+  couchbase:
+    bootstrap-hosts: 127.0.0.1
+    bucket:
+      name: default
+      password:
+    env:
+      ssl:
+        enabled: false
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
