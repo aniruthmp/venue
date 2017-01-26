@@ -17,7 +17,7 @@ spring:
           group: venuegroup
           resetOffsets: true
   profiles:
-    active: default
+    active: venue
 
 ---
 
@@ -39,7 +39,7 @@ spring:
 ---
 
 spring:
-  profiles: default
+  profiles: venue
   couchbase:
     bootstrap-hosts: 127.0.0.1
     bucket:
